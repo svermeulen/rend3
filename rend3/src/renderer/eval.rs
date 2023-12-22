@@ -3,7 +3,7 @@ use wgpu::CommandEncoderDescriptor;
 use crate::{
     graph::InstructionEvaluationOutput,
     instruction::{Instruction, InstructionKind},
-    Renderer,
+    Renderer, managers::SkeletonManager,
 };
 
 pub fn evaluate_instructions(renderer: &Renderer) -> InstructionEvaluationOutput {
@@ -43,7 +43,11 @@ pub fn evaluate_instructions(renderer: &Renderer) -> InstructionEvaluationOutput
                         .try_lock()
                         .unwrap()
                         .begin_scope("Add Skeleton", &mut encoder, &renderer.device);
-                    data_core.skeleton_manager.add(&handle, *skeleton);
+
+                    let internal = SkeletonManager::validate_skeleton(
+                        &renderer.device, &mut encoder, &renderer.mesh_manager, skeleton).unwrap();
+
+                    data_core.skeleton_manager.add(&handle, internal);
                     let _ = data_core.profiler.try_lock().unwrap().end_scope(&mut encoder);
                 }
                 InstructionKind::AddTexture2D {

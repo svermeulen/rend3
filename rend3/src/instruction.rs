@@ -6,7 +6,7 @@ use rend3_types::{
     trait_supertrait_alias, MaterialHandle, MeshHandle, ObjectChange, ObjectHandle, PointLight, PointLightChange,
     PointLightHandle, RawDirectionalLightHandle, RawGraphDataHandleUntyped, RawMaterialHandle, RawMeshHandle,
     RawPointLightHandle, RawSkeletonHandle, RawTexture2DHandle, RawTextureCubeHandle, SkeletonHandle, Texture2DHandle,
-    TextureCubeHandle, TextureFromTexture, WasmNotSend, WasmNotSync,
+    TextureCubeHandle, TextureFromTexture, WasmNotSend, WasmNotSync, Skeleton,
 };
 use wgpu::{CommandBuffer, Device};
 
@@ -34,8 +34,7 @@ pub enum InstructionKind {
     },
     AddSkeleton {
         handle: SkeletonHandle,
-        // Boxed for size
-        skeleton: Box<InternalSkeleton>,
+        skeleton: Skeleton,
     },
     AddTexture2D {
         handle: Texture2DHandle,

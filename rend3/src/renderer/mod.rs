@@ -172,16 +172,13 @@ impl Renderer {
     /// references alive.
     #[track_caller]
     pub fn add_skeleton(self: &Arc<Self>, skeleton: Skeleton) -> Result<SkeletonHandle, SkeletonCreationError> {
-        let mut encoder = self.device.create_command_encoder(&CommandEncoderDescriptor::default());
-        let internal = SkeletonManager::validate_skeleton(&self.device, &mut encoder, &self.mesh_manager, skeleton)?;
-
         // Handle allocation must be done _after_ any validation to prevent deletion of a handle that never gets fully added.
         let handle = self.resource_handle_allocators.skeleton.allocate(self);
 
         self.instructions.push(
             InstructionKind::AddSkeleton {
                 handle: handle.clone(),
-                skeleton: Box::new(internal),
+                skeleton,
             },
             *Location::caller(),
         );
