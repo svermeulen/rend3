@@ -11,7 +11,7 @@ use rend3_types::{
 use wgpu::{CommandBuffer, Device};
 
 use crate::{
-    managers::{GraphStorage, InternalMesh, InternalSkeleton, InternalTexture, MaterialManager, TextureManager},
+    managers::{GraphStorage, InternalMesh, InternalTexture, MaterialManager, TextureManager},
     types::{Camera, DirectionalLight, DirectionalLightChange, DirectionalLightHandle, Object, RawObjectHandle},
     RendererProfile,
 };
